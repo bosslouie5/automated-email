@@ -1,0 +1,132 @@
+:root{
+  --bg:#0f1724;
+  --card:rgba(255,255,255,0.06);
+  --muted:rgba(255,255,255,0.65);
+  --accent:#6b5bff;
+  --accent-2:#2dd4bf;
+  --glass: rgba(255,255,255,0.04);
+  --radius:14px;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;padding:32px;background:linear-gradient(180deg,#071027 0%,#071a2a 60%);color:#fff;min-height:100vh;
+}
+.container{max-width:1100px;margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand{margin:0;font-size:20px;letter-spacing:0.6px}
+.nav .btn{margin-left:8px}
+
+.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
+.hero-left{padding:28px 20px}
+.headline{margin:0 0 8px;font-size:28px;line-height:1.05}
+.sub{margin:0 0 18px;color:var(--muted)}
+.features{display:flex;gap:12px;color:var(--muted)}
+.features div{background:var(--glass);padding:8px 12px;border-radius:10px}
+
+.source-card{background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));padding:18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.18);backdrop-filter:blur(6px);margin-top:24px}
+.source-card h3{margin:0 0 14px;font-size:18px;color:#fff}
+
+.composer-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.6);backdrop-filter:blur(6px)}
+.composer{display:flex;flex-direction:column;gap:12px}
+.field-row label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
+.field-row input,.field-row textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none;transition:box-shadow .15s ease, transform .12s ease}
+.field-row textarea{direction:ltr;text-align:left;unicode-bidi:plaintext}
+.field-row input:focus,.field-row textarea:focus{box-shadow:0 6px 18px rgba(107,91,255,0.12);transform:translateY(-2px)}
+.excel-import{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.excel-name{color:var(--muted);font-size:13px}
+.excel-summary{padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;display:grid;gap:12px;animation:popIn .24s ease}
+.excel-summary.hidden{display:none}
+.excel-summary h3{margin:0;font-size:16px}
+.excel-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.summary-card{background:rgba(255,255,255,0.04);padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08)}
+.summary-card strong{display:block;margin-bottom:6px;color:#fff}
+.summary-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+.summary-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.summary-list li{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.04);font-size:13px;color:var(--muted)}
+.absent-list{padding:14px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;animation:popIn .24s ease;margin-top:16px}
+.absent-list.hidden{display:none}
+.absent-list h4{margin:0 0 12px;color:#fff;font-size:16px;font-weight:600}
+.absent-list ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.absent-list li{padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.04);color:var(--muted);font-size:13px}
+.absent-list li span{display:block;color:#fff;font-weight:600}
+.absent-list li small{display:block;color:rgba(255,255,255,0.65);font-size:12px;margin-top:4px}
+
+/* Table for filtered absent rows */
+.table-wrap{overflow:auto;margin-top:12px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.absent-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;font-size:13px}
+.absent-table thead{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#071027;font-weight:700}
+.absent-table th,.absent-table td{padding:12px 14px;text-align:left;font-size:13px}
+.absent-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.04);transition:transform .12s ease,background .12s ease}
+.absent-table tbody tr:last-child{border-bottom:none}
+.absent-table tbody tr:hover{transform:translateY(-2px);background:rgba(255,255,255,0.03)}
+
+/* small entrance for the table */
+.absent-list .table-wrap{animation:popIn .26s cubic-bezier(.2,.9,.3,1)}
+
+.attachments{border:2px dashed rgba(255,255,255,0.04);border-radius:10px;padding:14px;min-height:88px;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:background .15s ease,border-color .12s ease}
+.attachments.dragover{background:linear-gradient(90deg, rgba(107,91,255,0.06), rgba(45,212,191,0.04));border-color:rgba(107,91,255,0.6)}
+.attach-drop{display:flex;align-items:center;gap:12px}
+.attach-text{color:var(--muted)}
+.linkish{background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0;font-weight:600}
+.file-list{list-style:none;padding:10px 6px;margin:8px 0 0;width:100%}
+.file-list li{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,0.18);margin-bottom:8px}
+
+.actions{display:flex;gap:10px;justify-content:flex-end}
+.btn{padding:10px 14px;border-radius:10px;border:none;background:transparent;color:inherit;cursor:pointer}
+.btn.ghost{border:1px solid rgba(255,255,255,0.04)}
+.btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 24px rgba(107,91,255,0.12);color:#071027;font-weight:700}
+.btn.subtle{background:rgba(255,255,255,0.03)}
+
+.foot{margin-top:28px;color:var(--muted);text-align:center}
+
+/* Modal & Settings Styles */
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(3px)}
+.modal.hidden{display:none}
+.modal-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:-1}
+.modal-content{background:linear-gradient(180deg,rgba(31,45,70,0.95),rgba(15,23,36,0.95));border:1px solid rgba(255,255,255,0.08);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.8);backdrop-filter:blur(20px);width:90%;max-width:550px;max-height:85vh;overflow-y:auto;animation:modalSlide .3s cubic-bezier(.2,.9,.3,1)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:24px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.modal-header h2{margin:0;font-size:22px;color:#fff}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:24px;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all .2s ease}
+.modal-close:hover{background:rgba(255,255,255,0.08);color:#fff}
+.modal-body{padding:24px;display:flex;flex-direction:column;gap:24px}
+.modal-footer{padding:24px;border-top:1px solid rgba(255,255,255,0.08);display:flex;gap:12px;justify-content:flex-end}
+.settings-section h3{margin:0 0 8px;font-size:18px;color:#fff}
+.settings-desc{margin:0 0 18px;color:var(--muted);font-size:14px}
+.settings-field{display:flex;flex-direction:column;gap:10px}
+.settings-field label{font-size:14px;color:var(--muted);font-weight:600}
+.settings-field input,.settings-field select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#fff;font-family:inherit;font-size:14px;transition:all .2s ease;outline:none}
+.settings-field input::placeholder{color:rgba(255,255,255,0.3)}
+.settings-field input:focus,.settings-field select:focus{border-color:rgba(107,91,255,0.4);background:rgba(107,91,255,0.08);box-shadow:0 0 12px rgba(107,91,255,0.15)}
+.email-selector-wrapper{position:relative}
+.email-select{appearance:none;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.field-hint{margin:0;color:rgba(255,255,255,0.4);font-size:12px;line-height:1.4}
+.outlook-accounts-list{border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;min-height:60px;background:rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:10px}
+.outlook-accounts-list.has-accounts{padding:12px}
+.account-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(107,91,255,0.08);border:1px solid rgba(107,91,255,0.2);border-radius:10px;animation:slideIn .3s ease}
+.account-item-info{display:flex;align-items:center;gap:12px;flex:1}
+.account-item-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#071027;font-weight:700;font-size:14px}
+.account-item-details{display:flex;flex-direction:column;gap:2px}
+.account-item-email{font-size:13px;color:#fff;font-weight:600}
+.account-item-status{font-size:12px;color:rgba(255,255,255,0.5)}
+.account-item-remove{background:rgba(255,70,70,0.15);border:1px solid rgba(255,70,70,0.3);color:#ff7878;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;transition:all .2s ease}
+.account-item-remove:hover{background:rgba(255,70,70,0.25);border-color:rgba(255,70,70,0.5)}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;color:rgba(255,255,255,0.4);text-align:center}
+.empty-state svg{opacity:0.5}
+.empty-state p{margin:0;font-size:14px}
+.connect-btn,.add-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(107,91,255,0.1);border:1px solid rgba(107,91,255,0.3);color:var(--accent);transition:all .2s ease;margin-top:8px}
+.connect-btn:hover,.add-btn:hover{background:rgba(107,91,255,0.2);border-color:rgba(107,91,255,0.5);transform:translateY(-1px)}
+
+/* small screens */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .composer-card{order:-1;margin-bottom:14px}
+  .modal-content{width:95%;max-height:90vh}
+}
+
+/* micro animations */
+@keyframes popIn{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes modalSlide{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+@keyframes slideIn{from{transform:translateX(-10px);opacity:0}to{transform:none;opacity:1}}
+.composer-card{animation:popIn .28s cubic-bezier(.2,.9,.3,1)}
