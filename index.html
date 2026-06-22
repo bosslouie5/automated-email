@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AutoMail - Outlook Automation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="topbar">
+      <h1 class="brand">AutoMail</h1>
+      <nav class="nav">
+        <button class="btn ghost">Templates</button>
+        <button id="settingsBtn" class="btn ghost">Settings</button>
+      </nav>
+    </header>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Settings</h2>
+          <button id="closeSettingsBtn" class="modal-close">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="settings-section">
+            <h3>Email Configuration</h3>
+            <p class="settings-desc">Configure your email settings and select which email to use for sending messages.</p>
+            
+            <div class="settings-field">
+              <label>Default Sending Email</label>
+              <div class="email-selector-wrapper">
+                <select id="defaultEmailSelect" class="email-select">
+                  <option value="">Select an email...</option>
+                </select>
+              </div>
+              <p class="field-hint">Choose the email account you want to use for sending automated emails.</p>
+            </div>
+
+            <div class="settings-field">
+              <label>Connected Outlook Accounts</label>
+              <div class="outlook-accounts-list" id="outlookAccountsList">
+                <div class="empty-state">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 8v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8M3 8l9-5 9 5M9 12h6M9 16h4"></path>
+                  </svg>
+                  <p>No accounts connected</p>
+                </div>
+              </div>
+              <button id="connectOutlookBtn" class="btn subtle connect-btn" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                Connect Outlook Account
+              </button>
+            </div>
+
+            <div class="settings-field">
+              <label>Manual Email Entry</label>
+              <input id="manualEmailInput" type="email" placeholder="Enter email address manually" class="email-input">
+              <button id="addManualEmailBtn" class="btn subtle add-btn" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                Add Email
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="closeSettingsFooterBtn" class="btn subtle" type="button">Close</button>
+          <button id="saveSettingsBtn" class="btn primary" type="button">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-left">
+        <h2 class="headline">Automate Outlook emails with attachments—beautifully.</h2>
+        <p class="sub">Design-first email automation. Compose, attach, and schedule from one neat interface.</p>
+        <div class="features">
+          <div>Fast templates</div>
+          <div>Attachment automation</div>
+          <div>Secure Outlook integration</div>
+        </div>
+
+        <div class="source-card">
+          <h3>Source Excel</h3>
+          <p>Upload the attendance source file here. This is separate from the email composer and is used only for absence mapping.</p>
+          <div class="excel-import">
+            <input id="excelInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+            <button id="excelBrowseBtn" class="btn subtle" type="button">Upload Excel</button>
+            <span id="excelName" class="excel-name">No file selected</span>
+          </div>
+          <div id="excelSummary" class="excel-summary hidden"></div>
+          <div id="absentList" class="absent-list hidden"></div>
+        </div>
+      </div>
+
+      <aside class="composer-card">
+        <form id="emailForm" class="composer">
+          <div class="field-row">
+            <label>To</label>
+            <input id="to" type="email" placeholder="recipient@domain.com" required>
+          </div>
+          <div class="field-row">
+            <label>Recipients</label>
+            <textarea id="recipients" rows="2" placeholder="recipient1@example.com, recipient2@example.com"></textarea>
+          </div>
+          <div class="field-row">
+            <label>Subject</label>
+            <input id="subject" type="text" placeholder="Meeting notes / Report" required>
+          </div>
+          <div class="field-row">
+            <label>Message</label>
+            <textarea id="body" rows="12" dir="ltr" required>&#x202B;السلام عليكم ورحمة الله وبركاته،
+تجدون مرفقاً تقرير الحضور والانصراف للموظف،
+نرجو التكرم وإفادتنا بتوضيح سبب الغياب مع ضرورة توقيع الطرفين؛ الموظف والمسؤول المباشر،
+في حال وجود أي مشكلة في بصمة الموظف، نرجو فضلاً إبلاغنا بذلك.
+يرجى تزويدنا بسبب الغياب خلال أسبوع من تاريخه، وفي حال عدم الرد سيتم اتخاذ الإجراءات اللازمة.
+مع خالص جزيل الشكر والتقدير&#x202C;
+
+Dears,
+Find attached the employee's attendance report,
+Please outline the cause of absence signed by both the employee and their direct supervisor.
+If there is an issue with the employee's fingerprints, please let us know.
+Please provide the reason for absence within one week; otherwise, necessary action will be taken.
+Thanks</textarea>
+          </div>
+
+          <div id="attachmentsArea" class="attachments" tabindex="0">
+            <input id="fileInput" type="file" multiple hidden>
+            <div class="attach-drop">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4"/></svg>
+              <div class="attach-text">Drag files here or <button id="browseBtn" class="linkish" type="button">browse</button></div>
+            </div>
+            <ul id="fileList" class="file-list"></ul>
+          </div>
+
+          <div class="actions">
+            <button id="sendBtn" class="btn primary" type="submit">Send</button>
+            <button id="scheduleBtn" class="btn subtle" type="button">Schedule</button>
+          </div>
+        </form>
+      </aside>
+    </section>
+
+    <footer class="foot">Built with care — design-first automation.</footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
