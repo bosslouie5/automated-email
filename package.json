@@ -1,0 +1,11 @@
+{
+  "name": "automated-email",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A static AutoMail Outlook automation mockup.",
+  "scripts": {
+    "build": "echo \"No build needed for this static site.\""
+  },
+  "author": "bosslouie5",
+  "license": "MIT"
+}
