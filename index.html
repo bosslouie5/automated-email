@@ -50,12 +50,39 @@
                   <p>No accounts connected</p>
                 </div>
               </div>
-              <button id="connectOutlookBtn" class="btn subtle connect-btn" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 5v14M5 12h14"></path>
-                </svg>
-                Connect Outlook Account
-              </button>
+              
+              <!-- Auto-Detection Loading State -->
+              <div id="autoDetectLoading" class="auto-detect-loading hidden">
+                <div class="spinner"></div>
+                <p>Detecting Outlook emails...</p>
+              </div>
+
+              <!-- Auto-Detected Emails Selection -->
+              <div id="autoDetectResults" class="auto-detect-results hidden">
+                <h4>Detected Outlook Emails</h4>
+                <div id="detectedEmailsList" class="detected-emails-list"></div>
+                <div class="auto-detect-actions">
+                  <button id="confirmDetectedBtn" class="btn primary" type="button">Add Selected Emails</button>
+                  <button id="cancelDetectBtn" class="btn subtle" type="button">Cancel</button>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button id="autoDetectBtn" class="btn subtle connect-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <path d="M12 6v6m0 0v6"></path>
+                    <path d="M12 5a7 7 0 0 0-7 7m0 0a7 7 0 0 0 7 7m0 0a7 7 0 0 1 7-7m0 0a7 7 0 0 1-7-7"></path>
+                  </svg>
+                  Auto-Detect Emails
+                </button>
+                <button id="connectOutlookBtn" class="btn subtle connect-btn" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"></path>
+                  </svg>
+                  Connect Manually
+                </button>
+              </div>
             </div>
 
             <div class="settings-field">
