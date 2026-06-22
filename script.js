@@ -24,6 +24,18 @@ const addManualEmailBtn = document.getElementById('addManualEmailBtn');
 const manualEmailInput = document.getElementById('manualEmailInput');
 const outlookAccountsList = document.getElementById('outlookAccountsList');
 
+// Auto-Detect Elements
+const autoDetectBtn = document.getElementById('autoDetectBtn');
+const autoDetectLoading = document.getElementById('autoDetectLoading');
+const autoDetectResults = document.getElementById('autoDetectResults');
+const detectedEmailsList = document.getElementById('detectedEmailsList');
+const confirmDetectedBtn = document.getElementById('confirmDetectedBtn');
+const cancelDetectBtn = document.getElementById('cancelDetectBtn');
+
+// Store detected emails temporarily
+let detectedEmails = [];
+let selectedDetectedEmails = [];
+
 // Email Configuration Storage
 let emailAccounts = [];
 let defaultEmail = '';
@@ -143,6 +155,101 @@ function connectOutlookAccount(){
   }
 }
 
+// Auto-Detect Outlook Emails
+function startAutoDetect(){
+  // Show loading state
+  autoDetectLoading.classList.remove('hidden');
+  autoDetectResults.classList.add('hidden');
+  detectedEmails = [];
+  selectedDetectedEmails = [];
+  
+  // Simulate network delay for realistic UX
+  setTimeout(() => {
+    // Simulate fetching from Outlook/system (in real scenario, use MS Graph API)
+    detectedEmails = [
+      { email: 'john.doe@company.com', type: 'outlook', status: 'active' },
+      { email: 'john.d@company.outlook.com', type: 'outlook', status: 'active' },
+      { email: 'j.doe@mail.company.com', type: 'outlook', status: 'active' }
+    ];
+    
+    // Filter out already added emails
+    detectedEmails = detectedEmails.filter(d => !emailAccounts.some(acc => acc.email === d.email));
+    
+    if(detectedEmails.length === 0){
+      autoDetectLoading.classList.add('hidden');
+      showNotification('No new Outlook accounts found. All accounts are already added.', 'info');
+      return;
+    }
+    
+    // Hide loading and show results
+    autoDetectLoading.classList.add('hidden');
+    renderDetectedEmails();
+    autoDetectResults.classList.remove('hidden');
+  }, 1200);
+}
+
+function renderDetectedEmails(){
+  detectedEmailsList.innerHTML = detectedEmails.map((email, idx) => `
+    <div class="detected-email-item" style="animation: slideInUp 0.3s ease ${idx * 0.08}s backwards">
+      <input type="checkbox" id="detect-${idx}" class="email-checkbox" data-email="${email.email}" data-index="${idx}" checked>
+      <label for="detect-${idx}" class="email-checkbox-label">
+        <div class="email-checkbox-content">
+          <div class="email-checkbox-main">${escapeHtml(email.email)}</div>
+          <div class="email-checkbox-status">
+            <span class="status-badge outlook">Outlook</span>
+          </div>
+        </div>
+      </label>
+    </div>
+  `).join('');
+  
+  // Add event listeners for checkboxes
+  document.querySelectorAll('.email-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', (e) => {
+      const email = e.target.dataset.email;
+      if(e.target.checked){
+        if(!selectedDetectedEmails.includes(email)){
+          selectedDetectedEmails.push(email);
+        }
+      } else {
+        selectedDetectedEmails = selectedDetectedEmails.filter(e => e !== email);
+      }
+    });
+    // Pre-select all by default
+    selectedDetectedEmails.push(checkbox.dataset.email);
+  });
+}
+
+function confirmDetectedEmails(){
+  if(selectedDetectedEmails.length === 0){
+    showNotification('Please select at least one email.', 'error');
+    return;
+  }
+  
+  let addedCount = 0;
+  selectedDetectedEmails.forEach(email => {
+    if(addEmailAccount(email, 'outlook')){
+      addedCount++;
+    }
+  });
+  
+  if(addedCount > 0){
+    showNotification(`Successfully added ${addedCount} Outlook account${addedCount > 1 ? 's' : ''}!`, 'success');
+  }
+  
+  // Reset UI
+  autoDetectResults.classList.add('hidden');
+  detectedEmails = [];
+  selectedDetectedEmails = [];
+}
+
+function cancelAutoDetect(){
+  autoDetectLoading.classList.add('hidden');
+  autoDetectResults.classList.add('hidden');
+  detectedEmails = [];
+  selectedDetectedEmails = [];
+}
+
 // Show notification
 function showNotification(message, type = 'info'){
   const notification = document.createElement('div');
@@ -198,6 +305,10 @@ saveSettingsBtn.addEventListener('click', () => {
 });
 
 connectOutlookBtn.addEventListener('click', connectOutlookAccount);
+
+autoDetectBtn.addEventListener('click', startAutoDetect);
+confirmDetectedBtn.addEventListener('click', confirmDetectedEmails);
+cancelDetectBtn.addEventListener('click', cancelAutoDetect);
 
 addManualEmailBtn.addEventListener('click', () => {
   const email = manualEmailInput.value.trim();
