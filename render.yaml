@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: automated-email
+    env: static
+    rootDir: "."
+    buildCommand: "npm run build"
+    publishPath: "."
+    repo: "https://github.com/bosslouie5/automated-email"
+    branch: "main"
